@@ -1,0 +1,42 @@
+<div class="center">
+<input  type="file" (change)="onFileChange($event)" multiple="false"/>
+<!-- <button  [disabled]="!data">Upload</button>  -->
+<button  (click)="onGet()" [disabled]="!data">Get Data</button>
+</div>
+
+<!-- <table class="table" >
+    <tbody>
+        <tr *ngFor="let row of data">
+            <td *ngFor="let cell of row">
+                {{cell}}
+            </td>
+
+        </tr>
+    </tbody>
+</table> -->
+<div>
+<table class="table" *ngIf="!clear">
+    <tbody>
+        <tr *ngIf="users">
+            <th>Loan No</th>
+            <th>Borrower Name</th>
+            <th>DOB</th>
+            <th>Prop Address</th>
+            <th>Cost</th>
+            <th *ngIf="floodRisk !== ''">Flood Risk</th>
+        </tr>
+        <tr *ngFor="let row of users">
+            <td>{{row.loanNumber}}</td>
+            <td>{{row.borrowerName}}</td>
+            <td>{{row.dob}}</td>
+            <td>{{row.propertyAddress}}</td>
+            <td>{{row.propertyValue}}</td>
+            <td *ngIf="row.floodRisk">{{row.floodRisk}}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="error" *ngIf="errorMsg">
+    {{errorMsg}}
+</div>
+</div>
+

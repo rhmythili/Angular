@@ -1,5 +1,8 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import * as XLSX from 'xlsx';
 import { LoanserviceService } from '../loanservice.service';
 @Component({
@@ -13,6 +16,10 @@ export class HomeComponent implements OnInit {
  floodRisk: string = '';
  errorMsg = '';
  clear = true;
+ displayedColumns: string[] = ['LoanNo', 'BorrowerName', 'dob', 'PropAddress', 'Cost', 'FloodRisk'];
+ dataSource: MatTableDataSource<any[]>;
+ @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+ @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor(
     private loanservice : LoanserviceService 
@@ -20,6 +27,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  
   onFileChange(evt:any){
     const target : DataTransfer = <DataTransfer>(evt.target);
 
@@ -31,7 +40,6 @@ export class HomeComponent implements OnInit {
       const wb: XLSX.WorkBook =XLSX.read(bstr, {type: 'binary'});
       const wsname :string = wb.SheetNames[0];
       const ws:XLSX.WorkSheet = wb.Sheets[wsname];
-      console.log("wsss",ws);
       this.data = (XLSX.utils.sheet_to_json(ws, {header:1}));
       
       this.clear = true;
@@ -49,12 +57,14 @@ export class HomeComponent implements OnInit {
           "floodRisk": entry[5]
         })
       });
-      //console.log('obj: ', obj)
       this.loanservice.postUsers(obj)
       .subscribe((res) => {
         console.log('Res: ', res);
       },
-      err => this.errorMsg = err.error.message
+      err=>{ 
+        if(err?.error?.message) 
+           this.errorMsg = err.error.message
+      }
       );
     };
 
@@ -64,12 +74,16 @@ export class HomeComponent implements OnInit {
   onGet(): void {
     this.loanservice.getUsers().subscribe((data) => {
       this.clear = false;
-      console.log("data",data);
       const users =  JSON.parse(JSON.stringify(data));
-      console.log("users",users);
       users.map((user) => this.floodRisk += user.floodRisk ? user.floodRisk : '' );
-      console.log('flood risk: ', this.floodRisk);
-      console.log('Response', users);
+      if (this.floodRisk === '' && this.displayedColumns.length === 6) {
+        this.displayedColumns.pop();
+      } else if (this.floodRisk !== '' && this.displayedColumns.length === 5) {
+        this.displayedColumns.push('FloodRisk');
+      }
+      this.dataSource = new MatTableDataSource<any[]>(users);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
       this.users = users;
     });
   }

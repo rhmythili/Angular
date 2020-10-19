@@ -1,40 +1,49 @@
 <div class="center">
 <input  type="file" (change)="onFileChange($event)" multiple="false"/>
-<!-- <button  [disabled]="!data">Upload</button>  -->
 <button  (click)="onGet()" [disabled]="!data">Get Data</button>
 </div>
+<div style="position: relative; top: 100px;">
+<div *ngIf='!clear'>
+    
+<mat-table  [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="LoanNo">
+      <mat-header-cell *matHeaderCellDef class="w-300" mat-sort-header> Loan No </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.loanNumber}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="BorrowerName">
+      <mat-header-cell *matHeaderCellDef class="w-150" mat-sort-header> Borrower Name </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.borrowerName}} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="dob">
+      <mat-header-cell *matHeaderCellDef class="w-150" mat-sort-header> DOB </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.dob}} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="PropAddress">
+      <mat-header-cell *matHeaderCellDef class="w-40" mat-sort-header> Prop Address </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.propertyAddress}} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="Cost">
+      <mat-header-cell *matHeaderCellDef class="w-40"> Cost </mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.propertyValue}} </mat-cell>
+    </ng-container>
 
-<!-- <table class="table" >
-    <tbody>
-        <tr *ngFor="let row of data">
-            <td *ngFor="let cell of row">
-                {{cell}}
-            </td>
+    <ng-container matColumnDef="FloodRisk">
+        <mat-header-cell  *matHeaderCellDef class="w-40"> Flood Risk </mat-header-cell>
+        <mat-cell *matCellDef="let user" >{{user.floodRisk}}</mat-cell>
+      </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let user; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
+<div [hidden]='clear'>
+<mat-paginator  [pageSizeOptions]="[5, 10, 20]" pageSize="5" showFirstLastButtons></mat-paginator>
+    
+</div>
 
-        </tr>
-    </tbody>
-</table> -->
-<div>
-<table class="table" *ngIf="!clear">
-    <tbody>
-        <tr *ngIf="users">
-            <th>Loan No</th>
-            <th>Borrower Name</th>
-            <th>DOB</th>
-            <th>Prop Address</th>
-            <th>Cost</th>
-            <th *ngIf="floodRisk !== ''">Flood Risk</th>
-        </tr>
-        <tr *ngFor="let row of users">
-            <td>{{row.loanNumber}}</td>
-            <td>{{row.borrowerName}}</td>
-            <td>{{row.dob}}</td>
-            <td>{{row.propertyAddress}}</td>
-            <td>{{row.propertyValue}}</td>
-            <td *ngIf="row.floodRisk">{{row.floodRisk}}</td>
-        </tr>
-    </tbody>
-</table>
 <div class="error" *ngIf="errorMsg">
     {{errorMsg}}
 </div>

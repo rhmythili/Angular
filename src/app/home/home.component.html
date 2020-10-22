@@ -7,31 +7,31 @@
     
 <mat-table  [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="LoanNo">
-      <mat-header-cell *matHeaderCellDef class="w-300" mat-sort-header> Loan No </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="headers" mat-sort-header> Loan No </mat-header-cell>
       <mat-cell *matCellDef="let user"> {{user.loanNumber}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="BorrowerName">
-      <mat-header-cell *matHeaderCellDef class="w-150" mat-sort-header> Borrower Name </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="headers" mat-sort-header> Borrower Name </mat-header-cell>
       <mat-cell *matCellDef="let user"> {{user.borrowerName}} </mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="dob">
-      <mat-header-cell *matHeaderCellDef class="w-150" mat-sort-header> DOB </mat-header-cell>
-      <mat-cell *matCellDef="let user"> {{user.dob}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef class="headers" mat-sort-header> DOB </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.dob | date: 'MM/dd/yyyy'}} </mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="PropAddress">
-      <mat-header-cell *matHeaderCellDef class="w-40" mat-sort-header> Prop Address </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="headers" mat-sort-header> Prop Address </mat-header-cell>
       <mat-cell *matCellDef="let user"> {{user.propertyAddress}} </mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="Cost">
-      <mat-header-cell *matHeaderCellDef class="w-40"> Cost </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="headers"> Cost </mat-header-cell>
       <mat-cell *matCellDef="let user">{{user.propertyValue}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="FloodRisk">
-        <mat-header-cell  *matHeaderCellDef class="w-40"> Flood Risk </mat-header-cell>
+        <mat-header-cell  *matHeaderCellDef class="headers"> Flood Risk </mat-header-cell>
         <mat-cell *matCellDef="let user" >{{user.floodRisk}}</mat-cell>
       </ng-container>
   

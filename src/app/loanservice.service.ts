@@ -15,7 +15,7 @@ export class LoanserviceService {
     const headers= new HttpHeaders()
    .set('content-type', 'application/json')
     const body = JSON.stringify(users)
-    let url="http://localhost:9999/loanDetails/postUsers";
+    let url="http://localhost:9999/loanDetails/users";
    return this.httpClient.post(url, body, {'headers': headers}).pipe(
      map(res => res.toString()));
 

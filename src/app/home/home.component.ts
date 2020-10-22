@@ -78,7 +78,9 @@ export class HomeComponent implements OnInit {
       users.map((user) => this.floodRisk += user.floodRisk ? user.floodRisk : '' );
       if (this.floodRisk === '' && this.displayedColumns.length === 6) {
         this.displayedColumns.pop();
-      } else if (this.floodRisk !== '' && this.displayedColumns.length === 5) {
+      } 
+      //To check reverse scenario(uploading excel file with flood risk first and then uploading another file without flood risk)
+      else if (this.floodRisk !== '' && this.displayedColumns.length === 5) {
         this.displayedColumns.push('FloodRisk');
       }
       this.dataSource = new MatTableDataSource<any[]>(users);
